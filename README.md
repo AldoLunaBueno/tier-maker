@@ -2,6 +2,14 @@
 
 ## Proceso de creación
 
+Queremos que se entienda visualmente lo que hacen nuestro botones, pero no hace falta crear nuestros propios íconos. Hay miles de ellos en formato escalable SVG en [páginas como esta](https://tabler.io/icons), donde además podemos personalizar su tamaño, grosor, color, etc.
+
+Podemos copiar directamente en nuestro HTML el código SVG, pero la manera más ordenada es guardar el archivo SVG descargable en una carpeta junto con las demás imágenes, y luego referenciarla como cualquier imagen en el HTML. Por ejemplo, así incluimos el ícono SVG del botón para añadir una imagen:
+
+```html
+<img src="images/square-rounded-plus.svg" alt="add image" />
+```
+
 ¿Cómo cargamos imágenes? El que menos pensaría que se necesita JavaScript:
 
 ```html
