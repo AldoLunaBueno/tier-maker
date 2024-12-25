@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tier Maker</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <img src="images/logo.png" alt="tier maker logo" />
+    </header>
+
+    <section class="tier-list">
+      <article class="tier">
+        <aside class="label" style="--level: var(--color-s)">
+          <span contenteditable>S</span>
+        </aside>
+      </article>
+      <article class="tier">
+        <aside class="label" style="--level: var(--color-a)">
+          <span contenteditable>A</span>
+        </aside>
+      </article>
+      <article class="tier">
+        <aside class="label" style="--level: var(--color-b)">
+          <span contenteditable>B</span>
+        </aside>
+      </article>
+      <article class="tier">
+        <aside class="label" style="--level: var(--color-c)">
+          <span contenteditable>C</span>
+        </aside>
+      </article>
+      <article class="tier">
+        <aside class="label" style="--level: var(--color-d)">
+          <span contenteditable>D</span>
+        </aside>
+      </article>
+    </section>
+
+    <footer class="selector">
+      <section id="selector-buttons">
+        <label id="add-image-button">
+          <img src="images/square-rounded-plus.svg" alt="add image" />
+          <input type="file" accept="image/*" id="image-input" hidden />
+        </label>
+        <label id="reload-tier-list">
+          <img src="images/reload.svg" alt="reload tier list" />
+        </label>
+      </section>
+
+      <section id="selector-items"></section>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
