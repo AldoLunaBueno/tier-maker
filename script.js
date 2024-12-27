@@ -43,15 +43,16 @@ function createItem(src) {
 }
 
 imageInput.addEventListener("change", (event) => {
-  const [file] = event.target.files;
-
-  if (file) {
+  let files = event.target.files;
+  if (!files) return;
+  files = Array.from(files);
+  files.forEach((file) => {
     const reader = new FileReader();
     reader.onload = (eventReader) => {
       createItem(eventReader.target.result);
     };
     reader.readAsDataURL(file);
-  }
+  });
 });
 
 let dragged = null;

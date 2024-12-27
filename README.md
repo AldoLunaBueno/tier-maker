@@ -111,3 +111,45 @@ function handleDrop(event) {
     // rest of code
   }
 ```
+
+### Animando los tiers
+
+Esto no funciona:
+
+```css
+.tier {
+    display: flex;
+    ...
+
+    & .drag-over {
+        background: var(--border-color);
+        scale: 1.01;
+    }
+```
+
+Pero esto sí:
+
+```css
+.tier {
+    display: flex;
+    ...
+
+    &.drag-over {
+        background: var(--border-color);
+        scale: 1.01;
+    }
+```
+
+¿Qué pasó?
+
+### drag-and-drop múltiple desde el escritorio
+
+```html
+<input multiple type="file" accept="image/*" id="image-input" hidden />
+```
+
+```js
+const files = event.target.files;
+if (!files) return;
+files = Array.from(files);
+```
