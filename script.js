@@ -29,6 +29,8 @@ itemSection.addEventListener("dragleave", handleDragLeave);
 itemSection.addEventListener("drop", handleDrop);
 itemSection.classList.add("dropzone");
 
+itemSection.addEventListener("drop", handleDropFromDesktop);
+
 function createItem(src) {
   const imgElement = document.createElement("img");
   imgElement.src = src;
@@ -42,9 +44,8 @@ function createItem(src) {
   itemSection.appendChild(imgElement);
 }
 
-imageInput.addEventListener("change", (event) => {
-  let files = event.target.files;
-  if (!files) return;
+function createItemsFromFiles(files) {
+  if (!files || files.length === 0) return;
   files = Array.from(files);
   files.forEach((file) => {
     const reader = new FileReader();
@@ -53,25 +54,37 @@ imageInput.addEventListener("change", (event) => {
     };
     reader.readAsDataURL(file);
   });
+}
+
+imageInput.addEventListener("change", (event) => {
+  let files = event.target.files;
+  createItemsFromFiles(files);
 });
 
-let dragged = null;
+function handleDropFromDesktop(event) {
+  event.preventDefault();
+  const { currentTarget, dataTransfer } = event;
+  if (draggedFromInside) return;
+  createItemsFromFiles(dataTransfer.files);
+}
+
+let draggedFromInside = null;
 
 function handleDragStart(event) {
-  dragged = event.target;
+  draggedFromInside = event.target;
   event.dataTransfer.clearData();
-  event.dataTransfer.setData("text/plain", dragged.id);
+  event.dataTransfer.setData("text/plain", draggedFromInside.id);
 }
 
 function handleDragEnd(event) {
   event.preventDefault();
-  dragged = null;
+  draggedFromInside = null;
 }
 
 function handleDragEnter(event) {
   event.preventDefault();
-  console.log("enter");
-  const sourceContainer = dragged.parentNode;
+  if (!draggedFromInside) return;
+  const sourceContainer = draggedFromInside.parentNode;
   if (sourceContainer == event.currentTarget) return;
 
   const { currentTarget } = event;
@@ -93,7 +106,7 @@ function handleDrop(event) {
   event.preventDefault();
   if (event.target.classList.contains("dropzone")) {
     const draggedData = event.dataTransfer.getData("text");
-    console.log(draggedData);
+    if (!draggedData) return;
     const item = document.getElementById(draggedData);
     item.className = itemClass;
     event.target.appendChild(item);

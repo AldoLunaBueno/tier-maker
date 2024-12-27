@@ -142,7 +142,7 @@ Pero esto sí:
 
 ¿Qué pasó?
 
-### drag-and-drop múltiple desde el escritorio
+### drag-and-drop múltiple desde el explorador de archivos
 
 ```html
 <input multiple type="file" accept="image/*" id="image-input" hidden />
