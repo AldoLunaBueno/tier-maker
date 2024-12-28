@@ -6,6 +6,7 @@ const itemClass = "image-item";
 const imageInput = $("#image-input");
 const itemSection = $("#selector-items");
 const dropVeil = $("#drop-veil")
+const resetButton = $("#reset-button")
 
 const getItemId = (() => {
   let count = 0;
@@ -152,3 +153,12 @@ const observer = new MutationObserver(() => {
 
 // Start observing the dropzone
 observer.observe(itemSection, { childList: true });
+
+// reset: returns images to file drop zone
+resetButton.addEventListener("click", () => {
+  items = $$(`.tier-list .${itemClass}`)
+  items.forEach(item => {
+    item.remove()
+    itemSection.appendChild(item)
+  })
+})
