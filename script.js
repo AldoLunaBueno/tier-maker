@@ -5,15 +5,15 @@ const itemClass = "image-item";
 
 const imageInput = $("#image-input");
 const itemSection = $("#selector-items");
+const dropVeil = $("#drop-veil")
 
-const idFunctionGen = () => {
+const getItemId = (() => {
   let count = 0;
-
   return () => {
     return `item-${count++}`;
   };
-};
-getItemId = idFunctionGen();
+})()
+
 
 const tiers = $$(".tier");
 tiers.forEach((tier) => {
@@ -29,7 +29,10 @@ itemSection.addEventListener("dragleave", handleDragLeave);
 itemSection.addEventListener("drop", handleDrop);
 itemSection.classList.add("dropzone");
 
-itemSection.addEventListener("drop", handleDropFromDesktop);
+document.addEventListener("dragenter", handleEnterFromDesktop)
+document.addEventListener("dragover", handleOverFromDesktop)
+document.addEventListener("dragleave", handleLeaveFromDesktop)
+document.addEventListener("drop", handleDropFromDesktop);
 
 function createItem(src) {
   const imgElement = document.createElement("img");
@@ -61,30 +64,52 @@ imageInput.addEventListener("change", (event) => {
   createItemsFromFiles(files);
 });
 
+let draggedItem = null;
+let dragFileCounter = 0;
+
+function handleEnterFromDesktop(event) {
+  event.preventDefault();
+  if (draggedItem) return;
+  dragFileCounter++;
+  dropVeil.style.display = "flex"
+}
+
+function handleOverFromDesktop(event) {
+  event.preventDefault()
+}
+
+function handleLeaveFromDesktop(event) {
+  if (draggedItem) return;
+  dragFileCounter--;
+  if (dragFileCounter === 0) {
+    dropVeil.style.display = "none"
+  }
+}
+
 function handleDropFromDesktop(event) {
   event.preventDefault();
   const { currentTarget, dataTransfer } = event;
-  if (draggedFromInside) return;
+  if (draggedItem) return;
   createItemsFromFiles(dataTransfer.files);
+  dragFileCounter = 0;
+  dropVeil.style.display = "none"
 }
 
-let draggedFromInside = null;
-
 function handleDragStart(event) {
-  draggedFromInside = event.target;
+  draggedItem = event.target;
   event.dataTransfer.clearData();
-  event.dataTransfer.setData("text/plain", draggedFromInside.id);
+  event.dataTransfer.setData("text/plain", draggedItem.id);
 }
 
 function handleDragEnd(event) {
   event.preventDefault();
-  draggedFromInside = null;
+  draggedItem = null;
 }
 
 function handleDragEnter(event) {
   event.preventDefault();
-  if (!draggedFromInside) return;
-  const sourceContainer = draggedFromInside.parentNode;
+  if (!draggedItem) return;
+  const sourceContainer = draggedItem.parentNode;
   if (sourceContainer == event.currentTarget) return;
 
   const { currentTarget } = event;
@@ -115,3 +140,15 @@ function handleDrop(event) {
     currentTarget.classList.remove("drag-over");
   }
 }
+
+const sectionPhrase = $("#selector-items .phrase")
+
+// Create a MutationObserver
+const observer = new MutationObserver(() => {
+  // Check if the dropzone is empty or has children
+  sectionPhrase.style.display = itemSection.children.length === 1 ? "inline" : "none";
+  console.log(itemSection.children.length)
+});
+
+// Start observing the dropzone
+observer.observe(itemSection, { childList: true });
