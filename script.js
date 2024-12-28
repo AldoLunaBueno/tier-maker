@@ -141,7 +141,7 @@ function handleDrop(event) {
   }
 }
 
-const sectionPhrase = $("#selector-items .phrase")
+const sectionPhrase = $("#selector-items span")
 
 // Create a MutationObserver
 const observer = new MutationObserver(() => {
