@@ -153,3 +153,16 @@ const files = event.target.files;
 if (!files) return;
 files = Array.from(files);
 ```
+
+### Un detalle un poco vergonzoso
+
+![](2024-12-29-00-39-47.png)
+
+No es posible que se puedan arrastrar elementos que constitiyen el propio sitio web y soltarlos en la dropzone. No tiene sentido.
+
+¿Cómo se previene que se puedan arrastrar elementos como los botones sin afectar la interacción del usuario con dichos botones? Dos lineítas:
+
+```js
+const images = $$("img");
+images.forEach((image) => (image.draggable = false));
+```

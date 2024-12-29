@@ -1,6 +1,9 @@
 const $ = (el) => document.querySelector(el);
 const $$ = (els) => document.querySelectorAll(els);
 
+const images = $$("img");
+images.forEach((image) => (image.draggable = false));
+
 const itemClass = "image-item";
 
 const imageInput = $("#image-input");
@@ -69,7 +72,6 @@ let draggedItem = null;
 let lastDragEnterContainer = null;
 let dragFileCounter = 0;
 
-
 function handleEnterFromDesktop(event) {
   event.preventDefault();
   if (draggedItem) return;
@@ -108,10 +110,9 @@ function handleDragEnd(event) {
   event.preventDefault();
   const { currentTarget } = event;
   draggedItem = null;
-  if (!lastDragEnterContainer) return
+  if (!lastDragEnterContainer) return;
   lastDragEnterContainer.classList.remove("drag-over");
-  lastDragEnterContainer = null
-  
+  lastDragEnterContainer = null;
 }
 
 function handleDragEnter(event) {
@@ -122,7 +123,7 @@ function handleDragEnter(event) {
 
   const { currentTarget } = event;
   currentTarget.classList.add("drag-over");
-  lastDragEnterContainer = currentTarget
+  lastDragEnterContainer = currentTarget;
 }
 
 // This is a pain in the **s. Why can't be supressed this handler??
@@ -183,8 +184,8 @@ downloadButton.addEventListener("click", () => {
 
     // Render screenshot with adjusted scaling
     html2canvas(tierList, {
-      scale: scaleFactor,            // Render at higher resolution
-      width: tierList.offsetWidth,   // Match element's width
+      scale: scaleFactor, // Render at higher resolution
+      width: tierList.offsetWidth, // Match element's width
       height: tierList.offsetHeight, // Match element's height
     }).then((canvas) => {
       const imgURL = canvas.toDataURL("image/png"); // Convert to image
@@ -195,4 +196,3 @@ downloadButton.addEventListener("click", () => {
     });
   });
 });
-
